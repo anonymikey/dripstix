@@ -1,0 +1,23 @@
+import ProductCard from "./ProductCard";
+import { products } from "@/data/products";
+
+const FeaturedProducts = () => {
+  const featured = products.slice(0, 4);
+
+  return (
+    <section className="py-20">
+      <div className="container">
+        <h2 className="font-display text-3xl font-bold sm:text-4xl">
+          Featured <span className="text-secondary">Drops</span>
+        </h2>
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {featured.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default FeaturedProducts;
