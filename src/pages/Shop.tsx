@@ -3,23 +3,22 @@ import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
-import { products, categories } from "@/data/products";
+import { useProducts } from "@/hooks/useProducts";
+import { useCategories } from "@/hooks/useCategories";
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get("category") || "All";
+  const activeType = (searchParams.get("type") || "phone") as "phone" | "laptop";
 
-  const filtered = useMemo(
-    () => (activeCategory === "All" ? products : products.filter((p) => p.category === activeCategory)),
-    [activeCategory]
-  );
+  const { data: products = [], isLoading } = useProducts(activeType, activeCategory);
+  const { data: categories = [] } = useCategories(activeType);
 
-  const setCategory = (cat: string) => {
-    if (cat === "All") {
-      setSearchParams({});
-    } else {
-      setSearchParams({ category: cat });
-    }
+  const setFilter = (cat: string, type?: "phone" | "laptop") => {
+    const t = type || activeType;
+    const params: Record<string, string> = { type: t };
+    if (cat !== "All") params.category = cat;
+    setSearchParams(params);
   };
 
   return (
@@ -30,11 +29,25 @@ const Shop = () => {
           The <span className="text-primary">Shop</span>
         </h1>
 
-        <div className="mt-8 flex flex-wrap gap-2">
+        <div className="mt-6 flex gap-2">
+          {(["phone", "laptop"] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => setFilter("All", t)}
+              className={`rounded-full px-5 py-2 text-sm font-medium capitalize transition-all ${
+                activeType === t ? "gradient-neon text-primary-foreground" : "border border-border text-muted-foreground hover:border-primary hover:text-primary"
+              }`}
+            >
+              {t === "phone" ? "📱 Phone" : "💻 Laptop"}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-2">
           {["All", ...categories.map((c) => c.name)].map((cat) => (
             <button
               key={cat}
-              onClick={() => setCategory(cat)}
+              onClick={() => setFilter(cat)}
               className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
                 activeCategory === cat
                   ? "gradient-neon text-primary-foreground"
@@ -46,11 +59,18 @@ const Shop = () => {
           ))}
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="mt-20 text-center text-muted-foreground">Loading products...</div>
+        ) : (
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+            {products.length === 0 && (
+              <p className="col-span-full text-center text-muted-foreground">No products found in this category.</p>
+            )}
+          </div>
+        )}
       </div>
       <Footer />
     </div>
