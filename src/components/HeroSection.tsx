@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const HeroSection = () => {
+  const { data: content } = useSiteContent();
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
@@ -18,8 +21,8 @@ const HeroSection = () => {
           transition={{ duration: 0.8 }}
           className="font-display text-6xl font-black tracking-tight sm:text-8xl md:text-9xl"
         >
-          <span className="text-primary neon-glow-blue">Drip</span>
-          <span className="text-secondary neon-glow-pink">Stix</span>
+          <span className="text-primary neon-glow-blue">{content?.hero_title_1 || "Drip"}</span>
+          <span className="text-secondary neon-glow-pink">{content?.hero_title_2 || "Stix"}</span>
         </motion.h1>
 
         <motion.p
@@ -28,7 +31,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mx-auto mt-6 max-w-lg text-lg text-muted-foreground sm:text-xl"
         >
-          Premium Phone Stickers That Hit Different
+          {content?.hero_tagline || "Premium Phone Stickers That Hit Different"}
         </motion.p>
 
         <motion.div
@@ -41,7 +44,7 @@ const HeroSection = () => {
             to="/shop"
             className="gradient-neon inline-flex items-center gap-2 rounded-full px-8 py-4 font-display text-lg font-bold text-primary-foreground transition-transform hover:scale-105"
           >
-            Shop Now
+            {content?.hero_cta || "Shop Now"}
             <ArrowRight className="h-5 w-5" />
           </Link>
         </motion.div>

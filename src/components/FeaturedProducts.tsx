@@ -1,8 +1,10 @@
 import ProductCard from "./ProductCard";
-import { products } from "@/data/products";
+import { useFeaturedProducts } from "@/hooks/useProducts";
 
 const FeaturedProducts = () => {
-  const featured = products.slice(0, 4);
+  const { data: featured = [], isLoading } = useFeaturedProducts();
+
+  if (isLoading) return null;
 
   return (
     <section className="py-20">
