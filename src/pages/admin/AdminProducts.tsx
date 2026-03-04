@@ -141,7 +141,8 @@ const AdminProducts = () => {
         </div>
       )}
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-border">
+      {/* Desktop table */}
+      <div className="mt-6 hidden md:block overflow-hidden rounded-xl border border-border">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-border bg-muted/30">
             <tr>
@@ -174,6 +175,28 @@ const AdminProducts = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile cards */}
+      <div className="mt-6 space-y-3 md:hidden">
+        {products.map((p) => (
+          <div key={p.id} className="rounded-xl border border-border bg-card p-4">
+            <div className="flex items-center gap-3">
+              {p.image && <img src={p.image} alt="" className="h-12 w-12 rounded-lg object-cover" />}
+              <div className="flex-1 min-w-0">
+                <p className="font-medium truncate">{p.name}</p>
+                <p className="text-xs text-muted-foreground capitalize">{p.product_type} · KES {p.base_price}</p>
+              </div>
+              <span className={`rounded-full px-2 py-0.5 text-xs font-medium shrink-0 ${p.is_active ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}>
+                {p.is_active ? "Active" : "Inactive"}
+              </span>
+            </div>
+            <div className="mt-3 flex gap-3 border-t border-border pt-3">
+              <button onClick={() => openEdit(p)} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary"><Pencil className="h-3.5 w-3.5" /> Edit</button>
+              <button onClick={() => { if (confirm("Delete?")) deleteMutation.mutate(p.id); }} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-destructive"><Trash2 className="h-3.5 w-3.5" /> Delete</button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
