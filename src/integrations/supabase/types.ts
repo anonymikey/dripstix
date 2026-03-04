@@ -132,8 +132,11 @@ export type Database = {
           image: string
           is_active: boolean
           is_featured: boolean
+          is_in_stock: boolean
+          is_on_offer: boolean
           name: string
           product_type: Database["public"]["Enums"]["product_type"]
+          sale_price: number | null
           updated_at: string
         }
         Insert: {
@@ -145,8 +148,11 @@ export type Database = {
           image?: string
           is_active?: boolean
           is_featured?: boolean
+          is_in_stock?: boolean
+          is_on_offer?: boolean
           name: string
           product_type?: Database["public"]["Enums"]["product_type"]
+          sale_price?: number | null
           updated_at?: string
         }
         Update: {
@@ -158,8 +164,11 @@ export type Database = {
           image?: string
           is_active?: boolean
           is_featured?: boolean
+          is_in_stock?: boolean
+          is_on_offer?: boolean
           name?: string
           product_type?: Database["public"]["Enums"]["product_type"]
+          sale_price?: number | null
           updated_at?: string
         }
         Relationships: [

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { Minus, Plus, ShoppingCart, Tag } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useProduct } from "@/hooks/useProducts";
@@ -24,9 +24,13 @@ const ProductDetails = () => {
   if (isLoading) return <div className="flex min-h-screen items-center justify-center bg-background"><p className="text-muted-foreground">Loading...</p></div>;
   if (!product) return <div className="flex min-h-screen items-center justify-center bg-background"><p className="text-muted-foreground">Product not found.</p></div>;
 
-  const totalPrice = product.base_price + (selectedStyle?.price_modifier || 0);
+  const hasOffer = product.is_on_offer && product.sale_price;
+  const baseDisplayPrice = hasOffer ? product.sale_price! : product.base_price;
+  const totalPrice = baseDisplayPrice + (selectedStyle?.price_modifier || 0);
+  const isOutOfStock = !product.is_in_stock;
 
   const handleAddToCart = () => {
+    if (isOutOfStock) { toast.error("This product is out of stock"); return; }
     addToCart({
       productId: product.id,
       name: product.name,
@@ -43,8 +47,19 @@ const ProductDetails = () => {
       <Navbar />
       <div className="container pt-24 pb-20">
         <div className="grid gap-10 md:grid-cols-2">
-          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} className="overflow-hidden rounded-2xl border border-border">
-            <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} className="relative overflow-hidden rounded-2xl border border-border">
+            {hasOffer && (
+              <div className="absolute top-4 left-4 z-10 rounded-full bg-destructive px-3 py-1.5 text-sm font-bold text-destructive-foreground shadow-lg flex items-center gap-1.5">
+                <Tag className="h-4 w-4" />
+                {Math.round(((product.base_price - product.sale_price!) / product.base_price) * 100)}% OFF
+              </div>
+            )}
+            {isOutOfStock && (
+              <div className="absolute top-4 right-4 z-10 rounded-full bg-muted px-3 py-1.5 text-sm font-bold text-muted-foreground shadow-lg">
+                Out of Stock
+              </div>
+            )}
+            <img src={product.image} alt={product.name} className={`h-full w-full object-cover ${isOutOfStock ? "grayscale" : ""}`} />
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col justify-center">
@@ -64,7 +79,7 @@ const ProductDetails = () => {
               >
                 {styleOptions.map((s) => (
                   <option key={s.id} value={s.name}>
-                    {s.name} {s.price_modifier > 0 ? `(+KES ${s.price_modifier})` : ""}
+                    {s.name} {s.price_modifier > 0 ? `(+Ksh ${s.price_modifier})` : ""}
                   </option>
                 ))}
               </select>
@@ -80,16 +95,25 @@ const ProductDetails = () => {
             </div>
 
             <div className="mt-8">
-              <p className="font-display text-3xl font-black text-secondary">KES {totalPrice * quantity}</p>
+              <div className="flex items-center gap-3">
+                <p className="font-display text-3xl font-black text-secondary">Ksh {totalPrice * quantity}</p>
+                {hasOffer && (
+                  <p className="text-lg text-muted-foreground line-through">Ksh {(product.base_price + (selectedStyle?.price_modifier || 0)) * quantity}</p>
+                )}
+              </div>
+              {isOutOfStock && <p className="mt-2 text-sm font-medium text-destructive">⚠ This product is currently out of stock</p>}
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button onClick={handleAddToCart} className="flex items-center justify-center gap-2 rounded-full border border-primary px-8 py-3 font-display font-bold text-primary transition-all hover:bg-primary hover:text-primary-foreground">
-                <ShoppingCart className="h-5 w-5" /> Add to Cart
+              <button onClick={handleAddToCart} disabled={isOutOfStock}
+                className={`flex items-center justify-center gap-2 rounded-full border border-primary px-8 py-3 font-display font-bold transition-all ${isOutOfStock ? "opacity-50 cursor-not-allowed text-muted-foreground border-muted" : "text-primary hover:bg-primary hover:text-primary-foreground"}`}>
+                <ShoppingCart className="h-5 w-5" /> {isOutOfStock ? "Out of Stock" : "Add to Cart"}
               </button>
-              <button onClick={() => { handleAddToCart(); navigate("/checkout"); }} className="gradient-neon rounded-full px-8 py-3 font-display font-bold text-primary-foreground transition-transform hover:scale-105">
-                Pay with M-PESA
-              </button>
+              {!isOutOfStock && (
+                <button onClick={() => { handleAddToCart(); navigate("/checkout"); }} className="gradient-neon rounded-full px-8 py-3 font-display font-bold text-primary-foreground transition-transform hover:scale-105">
+                  Pay with M-PESA
+                </button>
+              )}
             </div>
           </motion.div>
         </div>
