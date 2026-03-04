@@ -6,6 +6,9 @@ export type DbProduct = {
   name: string;
   description: string;
   base_price: number;
+  sale_price: number | null;
+  is_on_offer: boolean;
+  is_in_stock: boolean;
   category_id: string | null;
   product_type: "phone" | "laptop";
   image: string;
