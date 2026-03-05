@@ -9,8 +9,8 @@ const FeaturedProducts = () => {
   return (
     <section className="py-20">
       <div className="container">
-        <h2 className="font-display text-3xl font-bold sm:text-4xl">
-          Featured <span className="text-secondary">Drops</span>
+        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          Featured <span className="text-primary">Drops</span>
         </h2>
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((product) => (
