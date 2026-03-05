@@ -18,12 +18,29 @@ const Checkout = () => {
     return null;
   }
 
+  const validateForm = () => {
+    if (!form.name.trim() || !form.phone.trim() || !form.location.trim()) {
+      toast.error("Please fill in all fields");
+      return false;
+    }
+    if (form.name.trim().length > 100) {
+      toast.error("Name must be less than 100 characters");
+      return false;
+    }
+    if (!/^[0-9+\s]{9,15}$/.test(form.phone.trim())) {
+      toast.error("Please enter a valid phone number (9-15 digits)");
+      return false;
+    }
+    if (form.location.trim().length > 255) {
+      toast.error("Location must be less than 255 characters");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.phone || !form.location) {
-      toast.error("Please fill in all fields");
-      return;
-    }
+    if (!validateForm()) return;
     setLoading(true);
     try {
       const { data: order, error: orderError } = await supabase
