@@ -14,11 +14,11 @@ const Cart = () => {
         <Navbar />
         <div className="container flex flex-col items-center justify-center pt-32 pb-20 text-center">
           <ShoppingCart className="h-16 w-16 text-muted-foreground" />
-          <h1 className="mt-6 font-display text-3xl font-bold">Your cart is empty</h1>
+          <h1 className="mt-6 font-display text-3xl font-bold text-foreground">Your cart is empty</h1>
           <p className="mt-2 text-muted-foreground">Time to add some drip!</p>
           <Link
             to="/shop"
-            className="gradient-neon mt-8 inline-flex rounded-full px-8 py-3 font-display font-bold text-primary-foreground"
+            className="gradient-brand mt-8 inline-flex rounded-full px-8 py-3 font-display text-sm font-semibold text-primary-foreground"
           >
             Browse Shop
           </Link>
@@ -32,7 +32,7 @@ const Cart = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container pt-24 pb-20">
-        <h1 className="font-display text-4xl font-black">
+        <h1 className="font-display text-4xl font-black tracking-tight text-foreground">
           Your <span className="text-primary">Cart</span>
         </h1>
 
@@ -48,16 +48,16 @@ const Cart = () => {
             >
               <img src={item.image} alt={item.name} className="h-20 w-20 rounded-lg object-cover" />
               <div className="flex-1">
-                <h3 className="font-display font-bold">{item.name}</h3>
+                <h3 className="font-display font-semibold text-foreground">{item.name}</h3>
                 <p className="text-sm text-muted-foreground">{item.style}</p>
-                <p className="mt-1 font-display font-bold text-secondary">KES {item.price}</p>
+                <p className="mt-1 font-display font-bold text-foreground">KES {item.price}</p>
               </div>
               <div className="flex items-center gap-2">
-                <button onClick={() => updateQuantity(item.productId, item.style, item.quantity - 1)} className="flex h-8 w-8 items-center justify-center rounded-lg border border-border hover:border-primary">
+                <button onClick={() => updateQuantity(item.productId, item.style, item.quantity - 1)} className="flex h-8 w-8 items-center justify-center rounded-lg border border-border hover:border-muted-foreground">
                   <Minus className="h-3 w-3" />
                 </button>
                 <span className="w-8 text-center font-bold">{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.productId, item.style, item.quantity + 1)} className="flex h-8 w-8 items-center justify-center rounded-lg border border-border hover:border-primary">
+                <button onClick={() => updateQuantity(item.productId, item.style, item.quantity + 1)} className="flex h-8 w-8 items-center justify-center rounded-lg border border-border hover:border-muted-foreground">
                   <Plus className="h-3 w-3" />
                 </button>
               </div>
@@ -69,14 +69,14 @@ const Cart = () => {
         </div>
 
         <div className="mt-8 flex items-center justify-between rounded-xl border border-border bg-card p-6">
-          <span className="font-display text-xl font-bold">Subtotal</span>
-          <span className="font-display text-2xl font-black text-secondary">KES {subtotal}</span>
+          <span className="font-display text-xl font-bold text-foreground">Subtotal</span>
+          <span className="font-display text-2xl font-black text-foreground">KES {subtotal}</span>
         </div>
 
         <div className="mt-6 flex justify-end">
           <Link
             to="/checkout"
-            className="gradient-neon rounded-full px-10 py-3 font-display font-bold text-primary-foreground transition-transform hover:scale-105"
+            className="gradient-brand rounded-full px-10 py-3 font-display text-sm font-semibold text-primary-foreground transition-transform hover:scale-105"
           >
             Proceed to Checkout
           </Link>

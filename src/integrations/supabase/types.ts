@@ -91,30 +91,36 @@ export type Database = {
       }
       orders: {
         Row: {
+          checkout_request_id: string | null
           created_at: string
           customer_name: string
           delivery_location: string
           id: string
+          payment_status: string
           phone_number: string
           status: string
           total: number
           updated_at: string
         }
         Insert: {
+          checkout_request_id?: string | null
           created_at?: string
           customer_name: string
           delivery_location: string
           id?: string
+          payment_status?: string
           phone_number: string
           status?: string
           total?: number
           updated_at?: string
         }
         Update: {
+          checkout_request_id?: string | null
           created_at?: string
           customer_name?: string
           delivery_location?: string
           id?: string
+          payment_status?: string
           phone_number?: string
           status?: string
           total?: number

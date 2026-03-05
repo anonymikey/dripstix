@@ -10,7 +10,7 @@ const CategoriesSection = () => {
   return (
     <section className="py-20">
       <div className="container">
-        <h2 className="font-display text-3xl font-bold sm:text-4xl">
+        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
           Browse by <span className="text-primary">Category</span>
         </h2>
 
@@ -20,7 +20,7 @@ const CategoriesSection = () => {
               key={t}
               onClick={() => setTab(t)}
               className={`rounded-full px-5 py-2 text-sm font-medium capitalize transition-all ${
-                tab === t ? "gradient-neon text-primary-foreground" : "border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                tab === t ? "gradient-brand text-primary-foreground" : "border border-border text-muted-foreground hover:border-muted-foreground hover:text-foreground"
               }`}
             >
               {t === "phone" ? "📱 Phone" : "💻 Laptop"} Stickers
@@ -39,11 +39,11 @@ const CategoriesSection = () => {
             >
               <Link
                 to={`/shop?type=${tab}&category=${cat.name}`}
-                className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-primary hover:neon-border-blue"
+                className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center card-hover"
               >
                 <span className="text-4xl">{cat.emoji}</span>
-                <h3 className="font-display text-lg font-bold">{cat.name}</h3>
-                <p className="text-sm text-muted-foreground">{cat.description}</p>
+                <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-foreground">{cat.name}</h3>
+                <p className="text-xs text-muted-foreground">{cat.description}</p>
               </Link>
             </motion.div>
           ))}

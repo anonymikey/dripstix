@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,48 +6,44 @@
 
 @layer base {
   :root {
-    --background: 240 15% 5%;
-    --foreground: 0 0% 95%;
+    --background: 0 0% 6%;
+    --foreground: 0 0% 96%;
 
-    --card: 240 12% 8%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 240 12% 8%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 190 100% 50%;
-    --primary-foreground: 240 15% 5%;
+    --primary: 155 60% 48%;
+    --primary-foreground: 0 0% 4%;
 
-    --secondary: 330 100% 56%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 50%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 240 10% 14%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 50%;
 
-    --accent: 330 100% 56%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 155 60% 48%;
+    --accent-foreground: 0 0% 4%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 10% 18%;
-    --input: 240 10% 18%;
-    --ring: 190 100% 50%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 155 60% 48%;
 
     --radius: 0.75rem;
 
-    --neon-blue: 190 100% 50%;
-    --neon-pink: 330 100% 56%;
-    --neon-purple: 270 80% 60%;
-
-    --sidebar-background: 240 12% 8%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 190 100% 50%;
-    --sidebar-primary-foreground: 240 15% 5%;
-    --sidebar-accent: 240 10% 14%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 240 10% 18%;
-    --sidebar-ring: 190 100% 50%;
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 155 60% 48%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 14%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 155 60% 48%;
   }
 }
 
@@ -66,23 +62,23 @@
 }
 
 @layer utilities {
-  .neon-glow-blue {
-    text-shadow: 0 0 10px hsl(190 100% 50% / 0.8), 0 0 30px hsl(190 100% 50% / 0.4), 0 0 60px hsl(190 100% 50% / 0.2);
+  .gradient-brand {
+    background: linear-gradient(135deg, hsl(155 60% 48%), hsl(155 60% 38%));
   }
 
-  .neon-glow-pink {
-    text-shadow: 0 0 10px hsl(330 100% 56% / 0.8), 0 0 30px hsl(330 100% 56% / 0.4), 0 0 60px hsl(330 100% 56% / 0.2);
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 55%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .neon-border-blue {
-    box-shadow: 0 0 8px hsl(190 100% 50% / 0.4), 0 0 20px hsl(190 100% 50% / 0.15), inset 0 0 8px hsl(190 100% 50% / 0.05);
+  .card-hover {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .neon-border-pink {
-    box-shadow: 0 0 8px hsl(330 100% 56% / 0.4), 0 0 20px hsl(330 100% 56% / 0.15), inset 0 0 8px hsl(330 100% 56% / 0.05);
-  }
-
-  .gradient-neon {
-    background: linear-gradient(135deg, hsl(190 100% 50%), hsl(330 100% 56%));
+  .card-hover:hover {
+    border-color: hsl(0 0% 28%);
+    box-shadow: 0 8px 32px hsl(0 0% 0% / 0.4);
   }
 }
