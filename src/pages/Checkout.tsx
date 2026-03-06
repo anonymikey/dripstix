@@ -118,9 +118,6 @@ const Checkout = () => {
       // Initiate STK Push
       const { data: stkData, error: stkError } = await supabase.functions.invoke("mpesa-stk-push", {
         body: {
-          phone: form.phone,
-          amount: subtotal,
-          reference: `ORD_${order.id.slice(0, 8).toUpperCase()}`,
           order_id: order.id,
         },
       });
