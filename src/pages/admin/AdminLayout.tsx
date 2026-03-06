@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
-import { Package, Grid3X3, ShoppingBag, FileText, LogOut, Menu, X } from "lucide-react";
+import { Package, Grid3X3, ShoppingBag, FileText, Star, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -9,6 +9,7 @@ const navItems = [
   { label: "Categories", icon: Grid3X3, path: "/admin/categories" },
   { label: "Orders", icon: ShoppingBag, path: "/admin/orders" },
   { label: "Site Content", icon: FileText, path: "/admin/content" },
+  { label: "Reviews", icon: Star, path: "/admin/reviews" },
 ];
 
 const AdminLayout = () => {
