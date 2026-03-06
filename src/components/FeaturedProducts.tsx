@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 import { useFeaturedProducts } from "@/hooks/useProducts";
 
@@ -9,9 +10,14 @@ const FeaturedProducts = () => {
   return (
     <section className="py-20">
       <div className="container">
-        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-          Featured <span className="text-primary">Drops</span>
-        </h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="font-display text-3xl font-bold tracking-tight sm:text-4xl"
+        >
+          Featured <span className="text-gradient">Drops</span>
+        </motion.h2>
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((product) => (
             <ProductCard key={product.id} product={product} />

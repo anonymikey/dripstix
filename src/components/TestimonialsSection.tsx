@@ -18,28 +18,10 @@ interface Review {
 }
 
 const fallbackReviews: Review[] = [
-  {
-    id: "1",
-    customer_name: "Amina Wanjiku",
-    role: "University Student",
-    rating: 5,
-    review_text: "The holographic stickers are absolutely stunning! My phone looks so unique now. Fast delivery to Nairobi too.",
-  },
-  {
-    id: "2",
-    customer_name: "Brian Ochieng",
-    role: "Content Creator",
-    rating: 5,
-    review_text: "Best sticker quality I've found in Kenya. The matte finish is premium and doesn't peel off easily.",
-  },
-  {
-    id: "3",
-    customer_name: "Faith Muthoni",
-    role: "Graphic Designer",
-    rating: 4,
-    review_text: "Love the variety of designs! Ordered for my laptop and phone — both look amazing. Will definitely order again.",
-  },
-] as Review[];
+  { id: "1", customer_name: "Amina Wanjiku", role: "University Student", rating: 5, review_text: "The holographic stickers are absolutely stunning! My phone looks so unique now. Fast delivery to Nairobi too." } as Review,
+  { id: "2", customer_name: "Brian Ochieng", role: "Content Creator", rating: 5, review_text: "Best sticker quality I've found in Kenya. The matte finish is premium and doesn't peel off easily." } as Review,
+  { id: "3", customer_name: "Faith Muthoni", role: "Graphic Designer", rating: 4, review_text: "Love the variety of designs! Ordered for my laptop and phone — both look amazing. Will definitely order again." } as Review,
+];
 
 const TestimonialsSection = () => {
   const queryClient = useQueryClient();
@@ -50,10 +32,7 @@ const TestimonialsSection = () => {
   const { data: reviews } = useQuery({
     queryKey: ["reviews"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("reviews")
-        .select("*")
-        .order("created_at", { ascending: false });
+      const { data, error } = await supabase.from("reviews").select("*").order("created_at", { ascending: false });
       if (error) throw error;
       return data as Review[];
     },
@@ -82,14 +61,24 @@ const TestimonialsSection = () => {
   const review = displayReviews[current % displayReviews.length];
 
   return (
-    <section className="py-16 sm:py-24 bg-background">
+    <section className="py-16 sm:py-24">
       <div className="container max-w-3xl text-center">
-        <p className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-primary mb-3">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-primary mb-3"
+        >
           Best & Affordable
-        </p>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-10 sm:mb-14">
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-10 sm:mb-14"
+        >
           What they say
-        </h2>
+        </motion.h2>
 
         <AnimatePresence mode="wait">
           <motion.div
@@ -100,28 +89,21 @@ const TestimonialsSection = () => {
             transition={{ duration: 0.4 }}
             className="flex flex-col items-center"
           >
-            {/* Avatar placeholder */}
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground text-xl sm:text-2xl font-bold mb-4">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-secondary flex items-center justify-center text-foreground text-xl sm:text-2xl font-bold mb-4 border border-border">
               {review.customer_name.charAt(0)}
             </div>
             <h3 className="text-base sm:text-lg font-bold text-foreground">{review.customer_name}</h3>
             <p className="text-xs sm:text-sm text-muted-foreground mb-3">{review.role}</p>
             <div className="flex items-center gap-1 mb-4">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-4 h-4 sm:w-5 sm:h-5 ${i < review.rating ? "fill-primary text-primary" : "text-muted"}`}
-                />
+                <Star key={i} className={`w-4 h-4 sm:w-5 sm:h-5 ${i < review.rating ? "fill-primary text-primary" : "text-muted"}`} />
               ))}
               <span className="ml-2 text-sm font-semibold text-foreground">{review.rating}.0</span>
             </div>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-lg leading-relaxed">
-              {review.review_text}
-            </p>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-lg leading-relaxed">{review.review_text}</p>
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation dots */}
         <div className="flex items-center justify-center gap-2 mt-8">
           {displayReviews.map((_, i) => (
             <button
@@ -134,13 +116,12 @@ const TestimonialsSection = () => {
           ))}
         </div>
 
-        {/* Submit review */}
         <div className="mt-10">
           {!showForm ? (
             <Button
               variant="outline"
               onClick={() => setShowForm(true)}
-              className="rounded-full border-border text-foreground hover:bg-accent"
+              className="rounded-full border-border text-foreground hover:bg-card hover:border-muted-foreground"
             >
               Leave a Review
             </Button>
@@ -160,25 +141,19 @@ const TestimonialsSection = () => {
                 value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                 required
-                className="bg-card border-border"
+                className="bg-card border-border text-foreground placeholder:text-muted-foreground"
               />
               <Input
                 placeholder="Your role (e.g. Student, Designer)"
                 value={form.role}
                 onChange={(e) => setForm((f) => ({ ...f, role: e.target.value }))}
-                className="bg-card border-border"
+                className="bg-card border-border text-foreground placeholder:text-muted-foreground"
               />
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground">Rating:</span>
                 {[1, 2, 3, 4, 5].map((r) => (
-                  <button
-                    key={r}
-                    type="button"
-                    onClick={() => setForm((f) => ({ ...f, rating: r }))}
-                  >
-                    <Star
-                      className={`w-5 h-5 ${r <= form.rating ? "fill-primary text-primary" : "text-muted"}`}
-                    />
+                  <button key={r} type="button" onClick={() => setForm((f) => ({ ...f, rating: r }))}>
+                    <Star className={`w-5 h-5 ${r <= form.rating ? "fill-primary text-primary" : "text-muted"}`} />
                   </button>
                 ))}
               </div>
@@ -187,22 +162,17 @@ const TestimonialsSection = () => {
                 value={form.text}
                 onChange={(e) => setForm((f) => ({ ...f, text: e.target.value }))}
                 required
-                className="bg-card border-border min-h-[80px]"
+                className="bg-card border-border text-foreground placeholder:text-muted-foreground min-h-[80px]"
               />
               <div className="flex gap-2">
                 <Button
                   type="submit"
-                  className="rounded-full bg-primary text-primary-foreground"
+                  className="rounded-full gradient-brand text-white shadow-md shadow-primary/20"
                   disabled={submitReview.isPending}
                 >
                   {submitReview.isPending ? "Submitting..." : "Submit"}
                 </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => setShowForm(false)}
-                  className="rounded-full"
-                >
+                <Button type="button" variant="ghost" onClick={() => setShowForm(false)} className="rounded-full text-muted-foreground hover:text-foreground">
                   Cancel
                 </Button>
               </div>

@@ -13,11 +13,11 @@ const ProductCard = ({ product }: { product: DbProduct }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className={`group relative overflow-hidden rounded-xl border border-border bg-card card-hover ${isOutOfStock ? "opacity-60" : ""}`}
+      className={`group relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-sm card-hover ${isOutOfStock ? "opacity-60" : ""}`}
     >
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
         {hasOffer && (
-          <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-bold text-primary-foreground">
+          <span className="gradient-brand rounded-full px-2.5 py-1 text-xs font-bold text-white shadow-md">
             {Math.round(((product.base_price - product.sale_price!) / product.base_price) * 100)}% OFF
           </span>
         )}
@@ -37,7 +37,7 @@ const ProductCard = ({ product }: { product: DbProduct }) => {
       </div>
       <div className="p-4">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{product.category?.name}</span>
+          <span className="text-xs font-medium uppercase tracking-wider text-primary">{product.category?.name}</span>
           <span className="text-xs text-muted-foreground capitalize">· {product.product_type}</span>
         </div>
         <h3 className="mt-1.5 font-display text-base font-semibold text-foreground">{product.name}</h3>
@@ -50,7 +50,7 @@ const ProductCard = ({ product }: { product: DbProduct }) => {
           </div>
           <Link
             to={`/product/${product.id}`}
-            className="rounded-full border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground transition-all hover:border-foreground hover:text-foreground"
+            className="gradient-brand rounded-full px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition-all hover:scale-105 hover:shadow-md hover:shadow-primary/20"
           >
             View
           </Link>
