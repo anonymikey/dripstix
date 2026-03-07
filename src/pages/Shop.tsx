@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,10 +7,19 @@ import PageBackground from "@/components/PageBackground";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
 
+const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
+
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get("category") || "All";
   const activeType = (searchParams.get("type") || "phone") as "phone" | "laptop";
+  const referralCode = searchParams.get("ref");
+
+  useEffect(() => {
+    if (referralCode) {
+      localStorage.setItem(REFERRAL_STORAGE_KEY, referralCode.trim().toUpperCase());
+    }
+  }, [referralCode]);
 
   const { data: products = [], isLoading } = useProducts(activeType, activeCategory);
   const { data: categories = [] } = useCategories(activeType);
@@ -18,6 +28,7 @@ const Shop = () => {
     const t = type || activeType;
     const params: Record<string, string> = { type: t };
     if (cat !== "All") params.category = cat;
+    if (referralCode) params.ref = referralCode;
     setSearchParams(params);
   };
 
