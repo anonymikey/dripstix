@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Minus, Plus, ShoppingCart, Tag } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -10,15 +10,25 @@ import { useStyleOptions } from "@/hooks/useStyleOptions";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
+const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
+
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { addToCart } = useCart();
   const { data: product, isLoading } = useProduct(id || "");
   const { data: styleOptions = [] } = useStyleOptions();
 
   const [selectedStyleName, setSelectedStyleName] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    const referralCode = searchParams.get("ref");
+    if (referralCode) {
+      localStorage.setItem(REFERRAL_STORAGE_KEY, referralCode.trim().toUpperCase());
+    }
+  }, [searchParams]);
 
   const selectedStyle = styleOptions.find((s) => s.name === selectedStyleName) || styleOptions[0];
 
@@ -37,6 +47,15 @@ const ProductDetails = () => {
   };
 
   const selectClass = "mt-2 w-full rounded-xl border border-border bg-card/60 backdrop-blur-sm px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary";
+
+  const checkoutWithReferral = () => {
+    const referralCode = localStorage.getItem(REFERRAL_STORAGE_KEY);
+    if (referralCode) {
+      navigate(`/checkout?ref=${encodeURIComponent(referralCode)}`);
+      return;
+    }
+    navigate("/checkout");
+  };
 
   return (
     <div className="min-h-screen page-bg">
@@ -98,7 +117,7 @@ const ProductDetails = () => {
                   <ShoppingCart className="h-4 w-4" /> {isOutOfStock ? "Out of Stock" : "Add to Cart"}
                 </button>
                 {!isOutOfStock && (
-                  <button onClick={() => { handleAddToCart(); navigate("/checkout"); }} className="gradient-brand rounded-full px-8 py-3 font-display text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-105">
+                  <button onClick={() => { handleAddToCart(); checkoutWithReferral(); }} className="gradient-brand rounded-full px-8 py-3 font-display text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-105">
                     Pay with M-PESA
                   </button>
                 )}

@@ -19,6 +19,7 @@ const Navbar = () => {
         <div className="hidden sm:flex items-center gap-8">
           <Link to="/" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Home</Link>
           <Link to="/shop" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Shop</Link>
+          <Link to="/affiliate" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Affiliate</Link>
         </div>
 
         <div className="flex items-center gap-4">
@@ -59,6 +60,7 @@ const Navbar = () => {
             <div className="container flex flex-col gap-4 py-4">
               <Link to="/" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Home</Link>
               <Link to="/shop" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Shop</Link>
+              <Link to="/affiliate" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Affiliate</Link>
               <Link to="/cart" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Cart {totalItems > 0 && `(${totalItems})`}</Link>
             </div>
           </motion.div>
