@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      affiliate_codes: {
+        Row: {
+          code: string
+          created_at: string
+          discount_percent: number
+          id: string
+          is_active: boolean
+          usage_count: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          discount_percent?: number
+          id?: string
+          is_active?: boolean
+          usage_count?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          discount_percent?: number
+          id?: string
+          is_active?: boolean
+          usage_count?: number
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -91,6 +118,8 @@ export type Database = {
       }
       orders: {
         Row: {
+          affiliate_code: string | null
+          affiliate_discount: number
           checkout_request_id: string | null
           created_at: string
           customer_name: string
@@ -103,6 +132,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          affiliate_code?: string | null
+          affiliate_discount?: number
           checkout_request_id?: string | null
           created_at?: string
           customer_name: string
@@ -115,6 +146,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          affiliate_code?: string | null
+          affiliate_discount?: number
           checkout_request_id?: string | null
           created_at?: string
           customer_name?: string
