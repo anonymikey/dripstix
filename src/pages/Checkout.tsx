@@ -230,7 +230,10 @@ const Checkout = () => {
             </div>
 
             <motion.button type="submit" disabled={loading} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="gradient-brand w-full rounded-full py-4 font-display text-sm font-semibold text-white uppercase tracking-wider shadow-lg shadow-primary/25 disabled:opacity-50">
-              {loading ? "Processing..." : "Confirm & Pay with M-PESA"}
+              {loading ? "Processing..." : "Pay Now with M-PESA"}
+            </motion.button>
+            <motion.button type="button" disabled={loading} onClick={handlePayLater} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full rounded-full py-4 font-display text-sm font-semibold uppercase tracking-wider border border-border text-foreground hover:bg-card/80 transition-colors disabled:opacity-50">
+              {loading ? "Processing..." : "Order Now, Pay Later"}
             </motion.button>
           </form>
         </div>
