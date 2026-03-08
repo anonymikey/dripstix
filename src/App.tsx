@@ -34,6 +34,7 @@ const AppRoutes = () => {
   return (
     <>
       {!isAdmin && !splashDone && <SplashScreen onComplete={handleSplashComplete} />}
+      {!isAdmin && splashDone && <WomensDayPopup />}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/shop" element={<Shop />} />
