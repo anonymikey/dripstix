@@ -278,13 +278,18 @@ const TestimonialsSection = () => {
 
         <div className="mt-10">
           {!showForm ? (
-            <Button
-              variant="outline"
-              onClick={() => setShowForm(true)}
-              className="rounded-full border-border text-foreground hover:bg-card hover:border-muted-foreground"
+            <motion.div
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              Leave a Review
-            </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowForm(true)}
+                className="rounded-full border-border text-foreground hover:bg-card hover:border-muted-foreground transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/20"
+              >
+                Leave a Review
+              </Button>
+            </motion.div>
           ) : (
             <motion.form
               initial={{ opacity: 0, y: 10 }}
