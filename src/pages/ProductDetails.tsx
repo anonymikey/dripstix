@@ -18,9 +18,6 @@ const ProductDetails = () => {
   const [searchParams] = useSearchParams();
   const { addToCart } = useCart();
   const { data: product, isLoading } = useProduct(id || "");
-  const { data: styleOptions = [] } = useStyleOptions();
-
-  const [selectedStyleName, setSelectedStyleName] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
