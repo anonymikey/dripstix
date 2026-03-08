@@ -27,7 +27,7 @@ const AdminLayout = () => {
     setSidebarOpen(false);
   }, [location.pathname]);
 
-  if (loading) return <div className="flex min-h-screen items-center justify-center bg-background"><p className="text-muted-foreground">Loading...</p></div>;
+  if (loading) return <div className="flex min-h-screen items-center justify-center bg-background"><LoadingSpinner text="Loading admin..." /></div>;
   if (!isAdmin) return null;
 
   const sidebarContent = (
