@@ -52,7 +52,7 @@ const Cart = () => {
                 <img src={item.image} alt={item.name} className="h-20 w-20 rounded-xl object-cover" />
                 <div className="flex-1 min-w-0">
                   <h3 className="font-display font-semibold text-foreground truncate">{item.name}</h3>
-                  <p className="text-sm text-muted-foreground">{item.style}</p>
+                  <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                   <p className="mt-1 font-display font-bold text-foreground">KES {item.price}</p>
                 </div>
                 <div className="flex items-center gap-2">

@@ -105,7 +105,7 @@ const AdminOrders = () => {
               <div className="mt-3 border-t border-border pt-3 space-y-1">
                 {o.order_items.map((item: any) => (
                   <p key={item.id} className="text-sm text-muted-foreground">
-                    {item.product_name} ({item.style}) × {item.quantity} — KES {item.unit_price * item.quantity}
+                    {item.product_name} × {item.quantity} — KES {item.unit_price * item.quantity}
                   </p>
                 ))}
               </div>
