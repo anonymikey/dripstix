@@ -6,7 +6,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageBackground from "@/components/PageBackground";
 import { useProduct } from "@/hooks/useProducts";
-import { useStyleOptions } from "@/hooks/useStyleOptions";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
@@ -18,9 +17,6 @@ const ProductDetails = () => {
   const [searchParams] = useSearchParams();
   const { addToCart } = useCart();
   const { data: product, isLoading } = useProduct(id || "");
-  const { data: styleOptions = [] } = useStyleOptions();
-
-  const [selectedStyleName, setSelectedStyleName] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
@@ -30,23 +26,18 @@ const ProductDetails = () => {
     }
   }, [searchParams]);
 
-  const selectedStyle = styleOptions.find((s) => s.name === selectedStyleName) || styleOptions[0];
-
   if (isLoading) return <div className="flex min-h-screen items-center justify-center page-bg"><p className="text-muted-foreground">Loading...</p></div>;
   if (!product) return <div className="flex min-h-screen items-center justify-center page-bg"><p className="text-muted-foreground">Product not found.</p></div>;
 
   const hasOffer = product.is_on_offer && product.sale_price;
-  const baseDisplayPrice = hasOffer ? product.sale_price! : product.base_price;
-  const totalPrice = baseDisplayPrice + (selectedStyle?.price_modifier || 0);
+  const displayPrice = hasOffer ? product.sale_price! : product.base_price;
   const isOutOfStock = !product.is_in_stock;
 
   const handleAddToCart = () => {
     if (isOutOfStock) { toast.error("This product is out of stock"); return; }
-    addToCart({ productId: product.id, name: product.name, image: product.image, style: selectedStyle?.name || "Matte", price: totalPrice, quantity });
+    addToCart({ productId: product.id, name: product.name, image: product.image, style: "Standard", price: displayPrice, quantity });
     toast.success(`${product.name} added to cart!`);
   };
-
-  const selectClass = "mt-2 w-full rounded-xl border border-border bg-card/60 backdrop-blur-sm px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary";
 
   const checkoutWithReferral = () => {
     const referralCode = localStorage.getItem(REFERRAL_STORAGE_KEY);
@@ -86,15 +77,6 @@ const ProductDetails = () => {
               <p className="mt-4 text-muted-foreground leading-relaxed">{product.description}</p>
 
               <div className="mt-8">
-                <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Style</label>
-                <select value={selectedStyle?.name || ""} onChange={(e) => setSelectedStyleName(e.target.value)} className={selectClass}>
-                  {styleOptions.map((s) => (
-                    <option key={s.id} value={s.name}>{s.name} {s.price_modifier > 0 ? `(+Ksh ${s.price_modifier})` : ""}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="mt-6">
                 <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Quantity</label>
                 <div className="mt-2 flex items-center gap-4">
                   <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="flex h-10 w-10 items-center justify-center rounded-xl border border-border text-foreground transition-colors hover:border-muted-foreground"><Minus className="h-4 w-4" /></button>
@@ -105,8 +87,8 @@ const ProductDetails = () => {
 
               <div className="mt-8">
                 <div className="flex items-center gap-3">
-                  <p className="font-display text-3xl font-black text-foreground">Ksh {totalPrice * quantity}</p>
-                  {hasOffer && <p className="text-lg text-muted-foreground line-through">Ksh {(product.base_price + (selectedStyle?.price_modifier || 0)) * quantity}</p>}
+                  <p className="font-display text-3xl font-black text-foreground">Ksh {displayPrice * quantity}</p>
+                  {hasOffer && <p className="text-lg text-muted-foreground line-through">Ksh {product.base_price * quantity}</p>}
                 </div>
                 {isOutOfStock && <p className="mt-2 text-sm font-medium text-destructive">⚠ This product is currently out of stock</p>}
               </div>

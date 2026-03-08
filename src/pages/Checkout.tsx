@@ -216,7 +216,7 @@ const Checkout = () => {
               <div className="mt-4 space-y-3">
                 {items.map((item) => (
                   <div key={`${item.productId}-${item.style}`} className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">{item.name} ({item.style}) × {item.quantity}</span>
+                    <span className="text-muted-foreground">{item.name} × {item.quantity}</span>
                     <span className="font-medium text-foreground">KES {item.price * item.quantity}</span>
                   </div>
                 ))}
