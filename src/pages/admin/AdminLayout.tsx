@@ -10,6 +10,7 @@ const navItems = [
   { label: "Orders", icon: ShoppingBag, path: "/admin/orders" },
   { label: "Site Content", icon: FileText, path: "/admin/content" },
   { label: "Reviews", icon: Star, path: "/admin/reviews" },
+  { label: "Affiliates", icon: Link2, path: "/admin/affiliates" },
 ];
 
 const AdminLayout = () => {
