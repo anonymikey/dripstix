@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Share2, MessageCircle, Mail, Gift, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -6,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageBackground from "@/components/PageBackground";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const WHATSAPP_NUMBER = "254710988061";
 const EMAIL = "info@dripstix.site";
