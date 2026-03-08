@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 import { useFeaturedProducts } from "@/hooks/useProducts";
+import LoadingSpinner from "./LoadingSpinner";
 
 const FeaturedProducts = () => {
   const { data: featured = [], isLoading } = useFeaturedProducts();
-
-  if (isLoading) return null;
 
   return (
     <section className="py-20">
