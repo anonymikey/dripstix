@@ -84,37 +84,39 @@ const Checkout = () => {
     }, 5000);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const createOrder = async () => {
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .insert({
+        customer_name: form.name,
+        phone_number: form.phone,
+        delivery_location: form.location,
+        total: subtotal,
+        affiliate_code: affiliateInfo?.code || null,
+      })
+      .select()
+      .single();
+    if (orderError) throw orderError;
+
+    const orderItems = items.map((item) => ({
+      order_id: order.id,
+      product_id: item.productId,
+      product_name: item.name,
+      style: item.style,
+      quantity: item.quantity,
+      unit_price: item.price,
+    }));
+    const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
+    if (itemsError) throw itemsError;
+    return order;
+  };
+
+  const handlePayNow = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
     setLoading(true); setPaymentState("processing");
     try {
-      const { data: order, error: orderError } = await supabase
-        .from("orders")
-        .insert({
-          customer_name: form.name,
-          phone_number: form.phone,
-          delivery_location: form.location,
-          total: subtotal,
-          affiliate_code: affiliateInfo?.code || null,
-        })
-        .select()
-        .single();
-
-      if (orderError) throw orderError;
-
-      const orderItems = items.map((item) => ({
-        order_id: order.id,
-        product_id: item.productId,
-        product_name: item.name,
-        style: item.style,
-        quantity: item.quantity,
-        unit_price: item.price,
-      }));
-
-      const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
-      if (itemsError) throw itemsError;
-
+      const order = await createOrder();
       const { data: stkData, error: stkError } = await supabase.functions.invoke("mpesa-stk-push", { body: { order_id: order.id } });
       if (stkError || !stkData?.success) throw new Error(stkData?.message || "Failed to initiate M-PESA payment");
       setPaymentState("polling");
@@ -122,8 +124,21 @@ const Checkout = () => {
     } catch (err: any) {
       toast.error(err.message || "Failed to place order");
       setPaymentState("form");
-    }
-    finally { setLoading(false); }
+    } finally { setLoading(false); }
+  };
+
+  const handlePayLater = async () => {
+    if (!validateForm()) return;
+    setLoading(true);
+    try {
+      await createOrder();
+      setPaymentState("success");
+      clearCart();
+      toast.success("Order placed! You can pay later via M-PESA.");
+      setTimeout(() => navigate("/"), 3000);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to place order");
+    } finally { setLoading(false); }
   };
 
   const inputClass = "mt-2 w-full rounded-xl border border-border bg-card/60 backdrop-blur-sm px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary";
