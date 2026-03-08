@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
-import { Package, Grid3X3, ShoppingBag, FileText, Star, LogOut, Menu, X } from "lucide-react";
+import { Package, Grid3X3, ShoppingBag, FileText, Star, Link2, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
