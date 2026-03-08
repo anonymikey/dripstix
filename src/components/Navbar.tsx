@@ -62,6 +62,7 @@ const Navbar = () => {
               <Link to="/" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Home</Link>
               <Link to="/shop" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Shop</Link>
               <Link to="/affiliate" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Affiliate</Link>
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Contact</Link>
               <Link to="/cart" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-foreground">Cart {totalItems > 0 && `(${totalItems})`}</Link>
             </div>
           </motion.div>
