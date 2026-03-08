@@ -8,6 +8,7 @@ import PageBackground from "@/components/PageBackground";
 import { useProduct } from "@/hooks/useProducts";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
 
@@ -26,7 +27,7 @@ const ProductDetails = () => {
     }
   }, [searchParams]);
 
-  if (isLoading) return <div className="flex min-h-screen items-center justify-center page-bg"><p className="text-muted-foreground">Loading...</p></div>;
+  if (isLoading) return <div className="flex min-h-screen items-center justify-center page-bg"><LoadingSpinner text="Loading product..." /></div>;
   if (!product) return <div className="flex min-h-screen items-center justify-center page-bg"><p className="text-muted-foreground">Product not found.</p></div>;
 
   const hasOffer = product.is_on_offer && product.sale_price;

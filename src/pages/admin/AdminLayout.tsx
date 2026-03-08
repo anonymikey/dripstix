@@ -3,6 +3,7 @@ import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Package, Grid3X3, ShoppingBag, FileText, Star, Link2, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const navItems = [
   { label: "Products", icon: Package, path: "/admin" },
@@ -27,7 +28,7 @@ const AdminLayout = () => {
     setSidebarOpen(false);
   }, [location.pathname]);
 
-  if (loading) return <div className="flex min-h-screen items-center justify-center bg-background"><p className="text-muted-foreground">Loading...</p></div>;
+  if (loading) return <div className="flex min-h-screen items-center justify-center bg-background"><LoadingSpinner text="Loading admin..." /></div>;
   if (!isAdmin) return null;
 
   const sidebarContent = (

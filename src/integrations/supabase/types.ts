@@ -44,6 +44,30 @@ export type Database = {
         }
         Relationships: []
       }
+      affiliate_posters: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string

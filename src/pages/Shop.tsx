@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import PageBackground from "@/components/PageBackground";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
 
@@ -73,7 +74,7 @@ const Shop = () => {
           </div>
 
           {isLoading ? (
-            <div className="mt-20 text-center text-muted-foreground">Loading products...</div>
+            <div className="mt-10"><LoadingSpinner text="Loading products..." /></div>
           ) : (
             <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {products.map((product) => (
