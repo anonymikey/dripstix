@@ -26,7 +26,7 @@ const ProductDetails = () => {
     }
   }, [searchParams]);
 
-  if (isLoading) return <div className="flex min-h-screen items-center justify-center page-bg"><p className="text-muted-foreground">Loading...</p></div>;
+  if (isLoading) return <div className="flex min-h-screen items-center justify-center page-bg"><LoadingSpinner text="Loading product..." /></div>;
   if (!product) return <div className="flex min-h-screen items-center justify-center page-bg"><p className="text-muted-foreground">Product not found.</p></div>;
 
   const hasOffer = product.is_on_offer && product.sale_price;
