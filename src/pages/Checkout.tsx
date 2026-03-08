@@ -189,7 +189,7 @@ const Checkout = () => {
             Check<span className="text-gradient">out</span>
           </h1>
 
-          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          <form onSubmit={handlePayNow} className="mt-8 space-y-6">
             <div>
               <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Full Name</label>
               <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="John Doe" className={inputClass} />
