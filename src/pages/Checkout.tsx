@@ -84,37 +84,39 @@ const Checkout = () => {
     }, 5000);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const createOrder = async () => {
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .insert({
+        customer_name: form.name,
+        phone_number: form.phone,
+        delivery_location: form.location,
+        total: subtotal,
+        affiliate_code: affiliateInfo?.code || null,
+      })
+      .select()
+      .single();
+    if (orderError) throw orderError;
+
+    const orderItems = items.map((item) => ({
+      order_id: order.id,
+      product_id: item.productId,
+      product_name: item.name,
+      style: item.style,
+      quantity: item.quantity,
+      unit_price: item.price,
+    }));
+    const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
+    if (itemsError) throw itemsError;
+    return order;
+  };
+
+  const handlePayNow = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
     setLoading(true); setPaymentState("processing");
     try {
-      const { data: order, error: orderError } = await supabase
-        .from("orders")
-        .insert({
-          customer_name: form.name,
-          phone_number: form.phone,
-          delivery_location: form.location,
-          total: subtotal,
-          affiliate_code: affiliateInfo?.code || null,
-        })
-        .select()
-        .single();
-
-      if (orderError) throw orderError;
-
-      const orderItems = items.map((item) => ({
-        order_id: order.id,
-        product_id: item.productId,
-        product_name: item.name,
-        style: item.style,
-        quantity: item.quantity,
-        unit_price: item.price,
-      }));
-
-      const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
-      if (itemsError) throw itemsError;
-
+      const order = await createOrder();
       const { data: stkData, error: stkError } = await supabase.functions.invoke("mpesa-stk-push", { body: { order_id: order.id } });
       if (stkError || !stkData?.success) throw new Error(stkData?.message || "Failed to initiate M-PESA payment");
       setPaymentState("polling");
@@ -122,8 +124,21 @@ const Checkout = () => {
     } catch (err: any) {
       toast.error(err.message || "Failed to place order");
       setPaymentState("form");
-    }
-    finally { setLoading(false); }
+    } finally { setLoading(false); }
+  };
+
+  const handlePayLater = async () => {
+    if (!validateForm()) return;
+    setLoading(true);
+    try {
+      await createOrder();
+      setPaymentState("success");
+      clearCart();
+      toast.success("Order placed! You can pay later via M-PESA.");
+      setTimeout(() => navigate("/"), 3000);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to place order");
+    } finally { setLoading(false); }
   };
 
   const inputClass = "mt-2 w-full rounded-xl border border-border bg-card/60 backdrop-blur-sm px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary";
@@ -174,7 +189,7 @@ const Checkout = () => {
             Check<span className="text-gradient">out</span>
           </h1>
 
-          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          <form onSubmit={handlePayNow} className="mt-8 space-y-6">
             <div>
               <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Full Name</label>
               <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="John Doe" className={inputClass} />
@@ -215,7 +230,10 @@ const Checkout = () => {
             </div>
 
             <motion.button type="submit" disabled={loading} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="gradient-brand w-full rounded-full py-4 font-display text-sm font-semibold text-white uppercase tracking-wider shadow-lg shadow-primary/25 disabled:opacity-50">
-              {loading ? "Processing..." : "Confirm & Pay with M-PESA"}
+              {loading ? "Processing..." : "Pay Now with M-PESA"}
+            </motion.button>
+            <motion.button type="button" disabled={loading} onClick={handlePayLater} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full rounded-full py-4 font-display text-sm font-semibold uppercase tracking-wider border border-border text-foreground hover:bg-card/80 transition-colors disabled:opacity-50">
+              {loading ? "Processing..." : "Order Now, Pay Later"}
             </motion.button>
           </form>
         </div>
