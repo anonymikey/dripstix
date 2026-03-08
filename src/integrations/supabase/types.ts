@@ -21,6 +21,7 @@ export type Database = {
           discount_percent: number
           id: string
           is_active: boolean
+          phone_number: string | null
           usage_count: number
         }
         Insert: {
@@ -29,6 +30,7 @@ export type Database = {
           discount_percent?: number
           id?: string
           is_active?: boolean
+          phone_number?: string | null
           usage_count?: number
         }
         Update: {
@@ -37,6 +39,7 @@ export type Database = {
           discount_percent?: number
           id?: string
           is_active?: boolean
+          phone_number?: string | null
           usage_count?: number
         }
         Relationships: []

@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef, useMemo } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Loader2, CheckCircle2, XCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -12,55 +11,52 @@ import { toast } from "sonner";
 
 type PaymentState = "form" | "processing" | "polling" | "success" | "failed";
 
-const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
-
 const Checkout = () => {
   const { items, subtotal, clearCart } = useCart();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const [form, setForm] = useState({ name: "", phone: "", location: "" });
   const [loading, setLoading] = useState(false);
   const [paymentState, setPaymentState] = useState<PaymentState>("form");
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const initialReferral = useMemo(() => {
-    const fromUrl = searchParams.get("ref");
-    const fromStorage = localStorage.getItem(REFERRAL_STORAGE_KEY);
-    return (fromUrl || fromStorage || "").trim().toUpperCase();
-  }, [searchParams]);
-
-  const [referralCodeInput, setReferralCodeInput] = useState(initialReferral);
+  // Auto-check affiliate by phone number
+  const [affiliateInfo, setAffiliateInfo] = useState<{ code: string; discount_percent: number } | null>(null);
+  const [checkingAffiliate, setCheckingAffiliate] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (initialReferral) {
-      setReferralCodeInput(initialReferral);
-      localStorage.setItem(REFERRAL_STORAGE_KEY, initialReferral);
+    const phone = form.phone.trim();
+    if (phone.length < 9) {
+      setAffiliateInfo(null);
+      return;
     }
-  }, [initialReferral]);
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      setCheckingAffiliate(true);
+      try {
+        const { data } = await supabase
+          .from("affiliate_codes")
+          .select("code, discount_percent, is_active")
+          .eq("phone_number", phone)
+          .eq("is_active", true)
+          .maybeSingle();
+        setAffiliateInfo(data ? { code: data.code, discount_percent: data.discount_percent } : null);
+      } catch {
+        setAffiliateInfo(null);
+      } finally {
+        setCheckingAffiliate(false);
+      }
+    }, 500);
+
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+  }, [form.phone]);
 
   useEffect(() => {
     return () => { if (pollingRef.current) clearInterval(pollingRef.current); };
   }, []);
 
-  const normalizedReferralCode = referralCodeInput.trim().toUpperCase();
-
-  const { data: affiliateCode, isFetching: validatingAffiliate } = useQuery({
-    queryKey: ["affiliate-code", normalizedReferralCode],
-    enabled: normalizedReferralCode.length >= 6,
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("affiliate_codes")
-        .select("code, discount_percent, is_active")
-        .eq("code", normalizedReferralCode)
-        .eq("is_active", true)
-        .maybeSingle();
-
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  const discountRate = affiliateCode?.discount_percent || 0;
+  const discountRate = affiliateInfo?.discount_percent || 0;
   const discountAmount = discountRate > 0 ? Number(((subtotal * discountRate) / 100).toFixed(2)) : 0;
   const payableTotal = Math.max(subtotal - discountAmount, 0);
 
@@ -100,7 +96,7 @@ const Checkout = () => {
           phone_number: form.phone,
           delivery_location: form.location,
           total: subtotal,
-          affiliate_code: affiliateCode?.code || null,
+          affiliate_code: affiliateInfo?.code || null,
         })
         .select()
         .single();
@@ -168,8 +164,6 @@ const Checkout = () => {
     );
   }
 
-  const showInvalidCode = normalizedReferralCode.length >= 6 && !validatingAffiliate && !affiliateCode;
-
   return (
     <div className="min-h-screen page-bg">
       <PageBackground />
@@ -188,27 +182,14 @@ const Checkout = () => {
             <div>
               <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Phone Number (M-PESA)</label>
               <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="0712 345 678" className={inputClass} />
+              {checkingAffiliate && <p className="mt-2 text-xs text-muted-foreground">Checking for affiliate discount...</p>}
+              {affiliateInfo && (
+                <p className="mt-2 text-xs font-medium text-primary">🎉 {affiliateInfo.discount_percent}% affiliate discount will be applied!</p>
+              )}
             </div>
             <div>
               <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Delivery Location</label>
               <input type="text" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="Nairobi, Westlands" className={inputClass} />
-            </div>
-            <div>
-              <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Affiliate Code (optional)</label>
-              <input
-                type="text"
-                value={referralCodeInput}
-                onChange={(e) => {
-                  const next = e.target.value.toUpperCase().replace(/\s+/g, "");
-                  setReferralCodeInput(next);
-                  if (next.length >= 6) localStorage.setItem(REFERRAL_STORAGE_KEY, next);
-                }}
-                placeholder="DRIPXXXX"
-                className={inputClass}
-              />
-              {validatingAffiliate && <p className="mt-2 text-xs text-muted-foreground">Validating affiliate code...</p>}
-              {affiliateCode && <p className="mt-2 text-xs font-medium text-primary">✅ Affiliate applied: {affiliateCode.discount_percent}% off</p>}
-              {showInvalidCode && <p className="mt-2 text-xs font-medium text-destructive">Invalid affiliate code</p>}
             </div>
 
             <div className="rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6">
@@ -220,16 +201,16 @@ const Checkout = () => {
                     <span className="font-medium text-foreground">KES {item.price * item.quantity}</span>
                   </div>
                 ))}
-                {affiliateCode && (
+                {affiliateInfo && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Affiliate discount ({affiliateCode.discount_percent}%)</span>
+                    <span className="text-muted-foreground">Affiliate discount ({affiliateInfo.discount_percent}%)</span>
                     <span className="font-medium text-primary">- KES {discountAmount}</span>
                   </div>
                 )}
               </div>
               <div className="mt-4 border-t border-border pt-4 flex justify-between">
                 <span className="font-display font-bold text-foreground">Total</span>
-                <span className="font-display text-xl font-black text-foreground">KES {affiliateCode ? payableTotal : subtotal}</span>
+                <span className="font-display text-xl font-black text-foreground">KES {affiliateInfo ? payableTotal : subtotal}</span>
               </div>
             </div>
 
