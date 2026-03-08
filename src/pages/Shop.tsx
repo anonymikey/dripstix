@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import PageBackground from "@/components/PageBackground";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
 

@@ -8,6 +8,7 @@ import PageBackground from "@/components/PageBackground";
 import { useProduct } from "@/hooks/useProducts";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
 

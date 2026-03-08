@@ -3,6 +3,7 @@ import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Package, Grid3X3, ShoppingBag, FileText, Star, Link2, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const navItems = [
   { label: "Products", icon: Package, path: "/admin" },
