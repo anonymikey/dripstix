@@ -35,6 +35,7 @@ const AppRoutes = () => {
 
   return (
     <>
+      <ScrollToTop />
       {!isAdmin && !splashDone && <SplashScreen onComplete={handleSplashComplete} />}
       {!isAdmin && splashDone && <WomensDayPopup />}
       <Routes>
