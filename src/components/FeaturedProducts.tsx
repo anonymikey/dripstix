@@ -10,25 +10,26 @@ const MarqueeRow = ({
   products: any[];
   direction?: "left" | "right";
 }) => {
-  const items = [...products, ...products, ...products, ...products];
-  const animateX = direction === "left" ? ["0%", "-25%"] : ["-25%", "0%"];
+  // Duplicate for seamless loop
+  const items = [...products, ...products, ...products];
+  const animateX = direction === "left" ? ["0%", "-33.333%"] : ["-33.333%", "0%"];
 
   return (
     <div className="overflow-hidden py-2">
       <motion.div
-        className="flex gap-3 sm:gap-4 md:gap-6 will-change-transform"
+        className="flex gap-6"
         animate={{ x: animateX }}
         transition={{
           x: {
             repeat: Infinity,
             repeatType: "loop",
-            duration: 25,
+            duration: 20,
             ease: "linear",
           },
         }}
       >
         {items.map((product, i) => (
-          <div key={`${product.id}-${i}`} className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] lg:min-w-[300px] flex-shrink-0">
+          <div key={`${product.id}-${i}`} className="min-w-[280px] sm:min-w-[300px]">
             <ProductCard product={product} />
           </div>
         ))}
