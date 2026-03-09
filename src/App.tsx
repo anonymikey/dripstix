@@ -8,6 +8,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import SplashScreen from "@/components/SplashScreen";
 import ScrollToTop from "@/components/ScrollToTop";
 import WomensDayPopup from "@/components/WomensDayPopup";
+import AffiliateBubble from "@/components/AffiliateBubble";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
