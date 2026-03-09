@@ -30,7 +30,7 @@ const MarqueeRow = ({
         {items.map((product, i) => (
           <div
             key={`${product.id}-${i}`}
-            className="min-w-[150px] sm:min-w-[170px] md:min-w-[190px] flex-shrink-0"
+            className="min-w-[180px] sm:min-w-[200px] md:min-w-[230px] flex-shrink-0"
           >
             <ProductCard product={product} />
           </div>
