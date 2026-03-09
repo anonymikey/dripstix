@@ -9,6 +9,8 @@ import SplashScreen from "@/components/SplashScreen";
 import ScrollToTop from "@/components/ScrollToTop";
 import WomensDayPopup from "@/components/WomensDayPopup";
 import AffiliateBubble from "@/components/AffiliateBubble";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import SocialProofNotification from "@/components/SocialProofNotification";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
