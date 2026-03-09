@@ -39,6 +39,7 @@ const AppRoutes = () => {
       <ScrollToTop />
       {!isAdmin && !splashDone && <SplashScreen onComplete={handleSplashComplete} />}
       {!isAdmin && splashDone && <WomensDayPopup />}
+      {splashDone && <AffiliateBubble />}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/shop" element={<Shop />} />
