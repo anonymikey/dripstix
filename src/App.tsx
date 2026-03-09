@@ -42,6 +42,8 @@ const AppRoutes = () => {
       {!isAdmin && !splashDone && <SplashScreen onComplete={handleSplashComplete} />}
       {!isAdmin && splashDone && <WomensDayPopup />}
       {splashDone && <AffiliateBubble />}
+      {splashDone && <WhatsAppButton />}
+      {splashDone && <SocialProofNotification />}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/shop" element={<Shop />} />
