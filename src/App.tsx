@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import SplashScreen from "@/components/SplashScreen";
+import ScrollToTop from "@/components/ScrollToTop";
 import WomensDayPopup from "@/components/WomensDayPopup";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -34,6 +35,7 @@ const AppRoutes = () => {
 
   return (
     <>
+      <ScrollToTop />
       {!isAdmin && !splashDone && <SplashScreen onComplete={handleSplashComplete} />}
       {!isAdmin && splashDone && <WomensDayPopup />}
       <Routes>

@@ -9,9 +9,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const contactInfo = [
-  { icon: Phone, label: "Phone", value: "+254 700 000 000", href: "tel:+254700000000" },
-  { icon: Mail, label: "Email", value: "hello@dripstix.com", href: "mailto:hello@dripstix.com" },
-  { icon: MapPin, label: "Location", value: "Nairobi, Kenya", href: "#" },
+  { icon: Phone, label: "Phone", value: "+254 710 988 061", href: "tel:+254710988061" },
+  { icon: Phone, label: "Phone", value: "+254 113 313 240", href: "tel:+254113313240" },
+  { icon: Phone, label: "Phone", value: "+254 782 829 321", href: "tel:+254782829321" },
+  { icon: Mail, label: "Email", value: "info@dripstix.site", href: "mailto:info@dripstix.site" },
+  { icon: MapPin, label: "Location", value: "Voi, Mombasa Road", href: "#" },
   { icon: Clock, label: "Hours", value: "Mon–Sat, 9AM–6PM", href: "#" },
 ];
 
