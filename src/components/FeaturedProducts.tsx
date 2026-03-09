@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
-import { useFeaturedProducts, useProducts } from "@/hooks/useProducts";
+import { useFeaturedProducts } from "@/hooks/useProducts";
 import LoadingSpinner from "./LoadingSpinner";
 
 const MarqueeRow = ({
@@ -10,28 +10,26 @@ const MarqueeRow = ({
   products: any[];
   direction?: "left" | "right";
 }) => {
-  const items = [...products, ...products, ...products, ...products];
-  const animateX = direction === "left" ? ["0%", "-25%"] : ["-25%", "0%"];
+  // Duplicate for seamless loop
+  const items = [...products, ...products, ...products];
+  const animateX = direction === "left" ? ["0%", "-33.333%"] : ["-33.333%", "0%"];
 
   return (
-    <div className="overflow-hidden py-3">
+    <div className="overflow-hidden py-2">
       <motion.div
-        className="flex gap-5"
+        className="flex gap-6"
         animate={{ x: animateX }}
         transition={{
           x: {
             repeat: Infinity,
             repeatType: "loop",
-            duration: products.length * 5,
+            duration: 20,
             ease: "linear",
           },
         }}
       >
         {items.map((product, i) => (
-          <div
-            key={`${product.id}-${i}`}
-            className="min-w-[260px] sm:min-w-[300px] md:min-w-[340px] flex-shrink-0"
-          >
+          <div key={`${product.id}-${i}`} className="min-w-[280px] sm:min-w-[300px]">
             <ProductCard product={product} />
           </div>
         ))}
@@ -41,19 +39,11 @@ const MarqueeRow = ({
 };
 
 const FeaturedProducts = () => {
-  const { data: featured = [], isLoading: loadingFeatured } = useFeaturedProducts();
-  const { data: allProducts = [], isLoading: loadingAll } = useProducts();
+  const { data: featured = [], isLoading } = useFeaturedProducts();
 
-  const isLoading = loadingFeatured || loadingAll;
-
-  // Use featured first, fill with other products if needed
-  const pool = featured.length >= 6
-    ? featured
-    : [...featured, ...allProducts.filter((p) => !featured.some((f) => f.id === p.id))];
-
-  const half = Math.ceil(pool.length / 2);
-  const rowOne = pool.slice(0, half);
-  const rowTwo = pool.slice(half);
+  const half = Math.ceil(featured.length / 2);
+  const rowOne = featured.slice(0, half);
+  const rowTwo = featured.slice(half);
 
   return (
     <section className="py-20 overflow-hidden">
@@ -69,10 +59,8 @@ const FeaturedProducts = () => {
       </div>
       {isLoading ? (
         <LoadingSpinner text="Loading featured drops..." />
-      ) : pool.length === 0 ? (
-        <p className="text-center text-muted-foreground py-10">No products yet.</p>
       ) : (
-        <div className="mt-10 space-y-4">
+        <div className="mt-10 space-y-6">
           {rowOne.length > 0 && <MarqueeRow products={rowOne} direction="left" />}
           {rowTwo.length > 0 && <MarqueeRow products={rowTwo} direction="right" />}
         </div>

@@ -51,7 +51,7 @@ export const useFeaturedProducts = () => {
         .select("*, category:categories(name, emoji)")
         .eq("is_featured", true)
         .order("created_at", { ascending: false })
-        .limit(10);
+        .limit(4);
       if (error) throw error;
       return data as unknown as DbProduct[];
     },
