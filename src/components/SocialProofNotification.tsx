@@ -84,10 +84,10 @@ const SocialProofNotification = () => {
               {order.name}
             </p>
             <p className="truncate text-[10px] sm:text-xs text-muted-foreground">
-              {order.name.split(" ")[0]} via {order.method}
+              {order.action}
             </p>
             <p className="mt-0.5 text-[10px] text-muted-foreground/70">
-              {order.time}
+              {order.time} · via M-Pesa ✅
             </p>
             <p className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-emerald-500">
               <span className="text-xs">🔥</span> Fast · 10K+ in Orders
