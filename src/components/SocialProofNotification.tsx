@@ -37,18 +37,14 @@ const SocialProofNotification = () => {
   const showNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % orders.length);
     setVisible(true);
-    // Hide after 5 seconds
-    setTimeout(() => setVisible(false), 5000);
+    setTimeout(() => setVisible(false), 4000);
   }, []);
 
   useEffect(() => {
     if (isAdmin) return;
 
-    // First notification after 15 seconds
-    const initialTimer = setTimeout(showNext, 15000);
-
-    // Then every 2 minutes
-    const interval = setInterval(showNext, 120000);
+    const initialTimer = setTimeout(showNext, 8000);
+    const interval = setInterval(showNext, 45000);
 
     return () => {
       clearTimeout(initialTimer);
