@@ -12,6 +12,7 @@ type AffiliateCode = {
   discount_percent: number;
   is_active: boolean;
   usage_count: number;
+  total_earnings: number;
   created_at: string;
 };
 
@@ -302,10 +303,11 @@ const AdminAffiliates = () => {
                       {c.is_active ? "Active" : "Inactive"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
                     <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {c.phone_number || "No phone"}</span>
                     <span>{c.discount_percent}% off</span>
                     <span>Used {c.usage_count}×</span>
+                    <span className="font-semibold text-primary">Earned KES {c.total_earnings.toLocaleString()}</span>
                   </div>
                 </div>
                 <div className="flex gap-2">

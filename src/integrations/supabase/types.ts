@@ -22,6 +22,7 @@ export type Database = {
           id: string
           is_active: boolean
           phone_number: string | null
+          total_earnings: number
           usage_count: number
         }
         Insert: {
@@ -31,6 +32,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           phone_number?: string | null
+          total_earnings?: number
           usage_count?: number
         }
         Update: {
@@ -40,6 +42,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           phone_number?: string | null
+          total_earnings?: number
           usage_count?: number
         }
         Relationships: []
