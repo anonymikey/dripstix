@@ -16,6 +16,15 @@ const orders = [
   { name: "Kevin Mwangi", image: customerKevin, product: "Transparent Sticker", time: "12 mins ago", method: "M-Pesa" },
   { name: "Mercy Akinyi", image: customerMercy, product: "Laptop Skin - Matte", time: "15 mins ago", method: "M-Pesa" },
   { name: "Dennis Kiprop", image: customerDennis, product: "Holographic Pack", time: "18 mins ago", method: "M-Pesa" },
+  { name: "Grace Wambui", image: customerAmina, product: "Anime Sticker Set", time: "1 min ago", method: "M-Pesa" },
+  { name: "James Otieno", image: customerBrian, product: "Nairobi Skyline Decal", time: "3 mins ago", method: "M-Pesa" },
+  { name: "Linda Cherono", image: customerFaith, product: "Butterfly Holographic", time: "6 mins ago", method: "M-Pesa" },
+  { name: "Peter Njoroge", image: customerKevin, product: "Custom Name Sticker", time: "9 mins ago", method: "M-Pesa" },
+  { name: "Sarah Mokeira", image: customerMercy, product: "Floral Phone Skin", time: "14 mins ago", method: "M-Pesa" },
+  { name: "Tom Kiplagat", image: customerDennis, product: "Street Art Pack", time: "21 mins ago", method: "M-Pesa" },
+  { name: "Wanjiku Muthoni", image: customerAmina, product: "Minimalist Lines", time: "4 mins ago", method: "M-Pesa" },
+  { name: "Eric Kimani", image: customerBrian, product: "Gaming Logo Sticker", time: "7 mins ago", method: "M-Pesa" },
+  { name: "Joyce Atieno", image: customerFaith, product: "Sunset Gradient Skin", time: "11 mins ago", method: "M-Pesa" },
 ];
 
 const SocialProofNotification = () => {
@@ -62,30 +71,30 @@ const SocialProofNotification = () => {
           onClick={() => setVisible(false)}
           className="fixed bottom-24 left-4 z-40 flex max-w-[300px] cursor-pointer items-center gap-3 rounded-xl border border-border/50 bg-card/95 p-3 shadow-xl backdrop-blur-md sm:bottom-28 sm:left-6 sm:max-w-xs sm:p-4"
         >
-          {/* Green verified dot */}
+          {/* Green verified dot - using design tokens */}
           <span className="absolute -right-1 -top-1 flex h-3 w-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-50" />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
           </span>
 
           <img
             src={order.image}
             alt={order.name}
-            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-green-500/40 sm:h-12 sm:w-12"
+            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-emerald-500/40 sm:h-12 sm:w-12"
           />
 
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-foreground">
+            <p className="truncate text-xs sm:text-sm font-semibold text-foreground">
               {order.name}
             </p>
-            <p className="truncate text-xs text-muted-foreground">
+            <p className="truncate text-[10px] sm:text-xs text-muted-foreground">
               {order.name.split(" ")[0]} via {order.method}
             </p>
             <p className="mt-0.5 text-[10px] text-muted-foreground/70">
               {order.time}
             </p>
-            <p className="flex items-center gap-1 text-[10px] font-medium text-green-500">
-              <span>🔥</span> Fast · 10K+ in Orders
+            <p className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-emerald-500">
+              <span className="text-xs">🔥</span> Fast · 10K+ in Orders
             </p>
           </div>
         </motion.div>
