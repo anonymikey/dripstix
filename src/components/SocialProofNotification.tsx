@@ -16,6 +16,15 @@ const orders = [
   { name: "Kevin Mwangi", image: customerKevin, product: "Transparent Sticker", time: "12 mins ago", method: "M-Pesa" },
   { name: "Mercy Akinyi", image: customerMercy, product: "Laptop Skin - Matte", time: "15 mins ago", method: "M-Pesa" },
   { name: "Dennis Kiprop", image: customerDennis, product: "Holographic Pack", time: "18 mins ago", method: "M-Pesa" },
+  { name: "Grace Wambui", image: customerAmina, product: "Anime Sticker Set", time: "1 min ago", method: "M-Pesa" },
+  { name: "James Otieno", image: customerBrian, product: "Nairobi Skyline Decal", time: "3 mins ago", method: "M-Pesa" },
+  { name: "Linda Cherono", image: customerFaith, product: "Butterfly Holographic", time: "6 mins ago", method: "M-Pesa" },
+  { name: "Peter Njoroge", image: customerKevin, product: "Custom Name Sticker", time: "9 mins ago", method: "M-Pesa" },
+  { name: "Sarah Mokeira", image: customerMercy, product: "Floral Phone Skin", time: "14 mins ago", method: "M-Pesa" },
+  { name: "Tom Kiplagat", image: customerDennis, product: "Street Art Pack", time: "21 mins ago", method: "M-Pesa" },
+  { name: "Wanjiku Muthoni", image: customerAmina, product: "Minimalist Lines", time: "4 mins ago", method: "M-Pesa" },
+  { name: "Eric Kimani", image: customerBrian, product: "Gaming Logo Sticker", time: "7 mins ago", method: "M-Pesa" },
+  { name: "Joyce Atieno", image: customerFaith, product: "Sunset Gradient Skin", time: "11 mins ago", method: "M-Pesa" },
 ];
 
 const SocialProofNotification = () => {
