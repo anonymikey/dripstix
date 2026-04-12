@@ -71,30 +71,30 @@ const SocialProofNotification = () => {
           onClick={() => setVisible(false)}
           className="fixed bottom-24 left-4 z-40 flex max-w-[300px] cursor-pointer items-center gap-3 rounded-xl border border-border/50 bg-card/95 p-3 shadow-xl backdrop-blur-md sm:bottom-28 sm:left-6 sm:max-w-xs sm:p-4"
         >
-          {/* Green verified dot */}
+          {/* Green verified dot - using design tokens */}
           <span className="absolute -right-1 -top-1 flex h-3 w-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-50" />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
           </span>
 
           <img
             src={order.image}
             alt={order.name}
-            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-green-500/40 sm:h-12 sm:w-12"
+            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-emerald-500/40 sm:h-12 sm:w-12"
           />
 
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-foreground">
+            <p className="truncate text-xs sm:text-sm font-semibold text-foreground">
               {order.name}
             </p>
-            <p className="truncate text-xs text-muted-foreground">
+            <p className="truncate text-[10px] sm:text-xs text-muted-foreground">
               {order.name.split(" ")[0]} via {order.method}
             </p>
             <p className="mt-0.5 text-[10px] text-muted-foreground/70">
               {order.time}
             </p>
-            <p className="flex items-center gap-1 text-[10px] font-medium text-green-500">
-              <span>🔥</span> Fast · 10K+ in Orders
+            <p className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-emerald-500">
+              <span className="text-xs">🔥</span> Fast · 10K+ in Orders
             </p>
           </div>
         </motion.div>
