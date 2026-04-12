@@ -10,21 +10,21 @@ import customerMercy from "@/assets/customer-mercy.jpg";
 import customerDennis from "@/assets/customer-dennis.jpg";
 
 const orders = [
-  { name: "Brian Ochieng", image: customerBrian, product: "Holographic Sticker", time: "2 mins ago", method: "M-Pesa" },
-  { name: "Amina Wanjiku", image: customerAmina, product: "Matte Phone Skin", time: "5 mins ago", method: "M-Pesa" },
-  { name: "Faith Njeri", image: customerFaith, product: "Glossy Sticker Pack", time: "8 mins ago", method: "M-Pesa" },
-  { name: "Kevin Mwangi", image: customerKevin, product: "Transparent Sticker", time: "12 mins ago", method: "M-Pesa" },
-  { name: "Mercy Akinyi", image: customerMercy, product: "Laptop Skin - Matte", time: "15 mins ago", method: "M-Pesa" },
-  { name: "Dennis Kiprop", image: customerDennis, product: "Holographic Pack", time: "18 mins ago", method: "M-Pesa" },
-  { name: "Grace Wambui", image: customerAmina, product: "Anime Sticker Set", time: "1 min ago", method: "M-Pesa" },
-  { name: "James Otieno", image: customerBrian, product: "Nairobi Skyline Decal", time: "3 mins ago", method: "M-Pesa" },
-  { name: "Linda Cherono", image: customerFaith, product: "Butterfly Holographic", time: "6 mins ago", method: "M-Pesa" },
-  { name: "Peter Njoroge", image: customerKevin, product: "Custom Name Sticker", time: "9 mins ago", method: "M-Pesa" },
-  { name: "Sarah Mokeira", image: customerMercy, product: "Floral Phone Skin", time: "14 mins ago", method: "M-Pesa" },
-  { name: "Tom Kiplagat", image: customerDennis, product: "Street Art Pack", time: "21 mins ago", method: "M-Pesa" },
-  { name: "Wanjiku Muthoni", image: customerAmina, product: "Minimalist Lines", time: "4 mins ago", method: "M-Pesa" },
-  { name: "Eric Kimani", image: customerBrian, product: "Gaming Logo Sticker", time: "7 mins ago", method: "M-Pesa" },
-  { name: "Joyce Atieno", image: customerFaith, product: "Sunset Gradient Skin", time: "11 mins ago", method: "M-Pesa" },
+  { name: "Brian Ochieng", image: customerBrian, action: "just ordered a Holographic Sticker", time: "2 mins ago" },
+  { name: "Amina Wanjiku", image: customerAmina, action: "bought a Matte Phone Skin", time: "5 mins ago" },
+  { name: "Faith Njeri", image: customerFaith, action: "ordered a Glossy Sticker Pack", time: "8 mins ago" },
+  { name: "Kevin Mwangi", image: customerKevin, action: "grabbed a Transparent Sticker", time: "12 mins ago" },
+  { name: "Mercy Akinyi", image: customerMercy, action: "purchased a Laptop Skin", time: "15 mins ago" },
+  { name: "Dennis Kiprop", image: customerDennis, action: "just ordered the Holographic Pack", time: "18 mins ago" },
+  { name: "Grace Wambui", image: customerAmina, action: "bought an Anime Sticker Set", time: "1 min ago" },
+  { name: "James Otieno", image: customerBrian, action: "ordered a Nairobi Skyline Decal", time: "3 mins ago" },
+  { name: "Linda Cherono", image: customerFaith, action: "grabbed a Butterfly Holographic", time: "6 mins ago" },
+  { name: "Peter Njoroge", image: customerKevin, action: "purchased a Custom Name Sticker", time: "9 mins ago" },
+  { name: "Sarah Mokeira", image: customerMercy, action: "bought a Floral Phone Skin", time: "14 mins ago" },
+  { name: "Tom Kiplagat", image: customerDennis, action: "just ordered a Street Art Pack", time: "21 mins ago" },
+  { name: "Wanjiku Muthoni", image: customerAmina, action: "grabbed a Minimalist Lines set", time: "4 mins ago" },
+  { name: "Eric Kimani", image: customerBrian, action: "ordered a Gaming Logo Sticker", time: "7 mins ago" },
+  { name: "Joyce Atieno", image: customerFaith, action: "bought a Sunset Gradient Skin", time: "11 mins ago" },
 ];
 
 const SocialProofNotification = () => {
@@ -37,18 +37,14 @@ const SocialProofNotification = () => {
   const showNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % orders.length);
     setVisible(true);
-    // Hide after 5 seconds
-    setTimeout(() => setVisible(false), 5000);
+    setTimeout(() => setVisible(false), 4000);
   }, []);
 
   useEffect(() => {
     if (isAdmin) return;
 
-    // First notification after 15 seconds
-    const initialTimer = setTimeout(showNext, 15000);
-
-    // Then every 2 minutes
-    const interval = setInterval(showNext, 120000);
+    const initialTimer = setTimeout(showNext, 8000);
+    const interval = setInterval(showNext, 45000);
 
     return () => {
       clearTimeout(initialTimer);
@@ -88,10 +84,10 @@ const SocialProofNotification = () => {
               {order.name}
             </p>
             <p className="truncate text-[10px] sm:text-xs text-muted-foreground">
-              {order.name.split(" ")[0]} via {order.method}
+              {order.action}
             </p>
             <p className="mt-0.5 text-[10px] text-muted-foreground/70">
-              {order.time}
+              {order.time} · via M-Pesa ✅
             </p>
             <p className="flex items-center gap-1 text-[10px] sm:text-xs font-medium text-emerald-500">
               <span className="text-xs">🔥</span> Fast · 10K+ in Orders
