@@ -12,6 +12,7 @@ type AffiliateCode = {
   discount_percent: number;
   is_active: boolean;
   usage_count: number;
+  total_earnings: number;
   created_at: string;
 };
 
