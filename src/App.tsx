@@ -26,6 +26,7 @@ import AdminOrders from "./pages/admin/AdminOrders";
 import AdminContent from "./pages/admin/AdminContent";
 import AdminReviews from "./pages/admin/AdminReviews";
 import AdminAffiliates from "./pages/admin/AdminAffiliates";
+import AffiliateEarnings from "./pages/AffiliateEarnings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const AppRoutes = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/affiliate" element={<Affiliate />} />
+        <Route path="/affiliate/earnings" element={<AffiliateEarnings />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Plus, Trash2, X, Phone, Tag, ToggleLeft, ToggleRight, Upload, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import AdminPayouts from "@/components/admin/AdminPayouts";
 
 type AffiliateCode = {
   id: string;
@@ -244,6 +245,9 @@ const AdminAffiliates = () => {
           </div>
         )}
       </section>
+
+      {/* ── PAYOUTS SECTION ── */}
+      <AdminPayouts />
 
       {/* ── AFFILIATE CODES SECTION ── */}
       <section>
