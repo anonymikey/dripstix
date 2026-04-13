@@ -66,7 +66,7 @@ const ProductDetails = () => {
               {isOutOfStock && (
                 <div className="absolute top-4 right-4 z-10 rounded-full bg-muted px-3 py-1.5 text-sm font-semibold text-muted-foreground">Out of Stock</div>
               )}
-              <img src={product.image} alt={product.name} className={`h-full w-full object-cover ${isOutOfStock ? "grayscale" : ""}`} />
+              <img src={product.image} alt={product.name} loading="eager" decoding="async" className={`h-full w-full object-cover ${isOutOfStock ? "grayscale" : ""}`} />
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col justify-center">
