@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Share2, MessageCircle, Mail, Gift, Download } from "lucide-react";
+import { Share2, MessageCircle, Mail, Gift, Download, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -167,6 +168,20 @@ const Affiliate = () => {
                 <Mail className="h-4 w-4" /> Email Us
               </a>
             </div>
+          </section>
+
+          <section className="mt-8 rounded-2xl border border-primary/20 bg-primary/5 p-6 backdrop-blur-sm text-center">
+            <TrendingUp className="mx-auto h-8 w-8 text-primary" />
+            <h2 className="mt-3 font-display text-xl font-bold text-foreground">Already an affiliate?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Check your earnings and payout history anytime.
+            </p>
+            <Link
+              to="/affiliate/earnings"
+              className="gradient-neon mt-4 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-primary-foreground"
+            >
+              <TrendingUp className="h-4 w-4" /> View My Earnings
+            </Link>
           </section>
 
           <p className="mt-6 text-xs text-muted-foreground text-center">
