@@ -11,6 +11,7 @@ import WomensDayPopup from "@/components/WomensDayPopup";
 import AffiliateBubble from "@/components/AffiliateBubble";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import SocialProofNotification from "@/components/SocialProofNotification";
+import AIChatBubble from "@/components/AIChatBubble";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
@@ -45,6 +46,7 @@ const AppRoutes = () => {
       {splashDone && <AffiliateBubble />}
       {splashDone && <WhatsAppButton />}
       {splashDone && <SocialProofNotification />}
+      {splashDone && <AIChatBubble />}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/shop" element={<Shop />} />

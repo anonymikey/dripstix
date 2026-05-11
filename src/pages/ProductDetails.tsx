@@ -9,6 +9,7 @@ import { useProduct } from "@/hooks/useProducts";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import RelatedProducts from "@/components/RelatedProducts";
 
 const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
 
@@ -108,6 +109,7 @@ const ProductDetails = () => {
             </motion.div>
           </div>
         </div>
+        {product && <RelatedProducts productId={product.id} />}
         <Footer />
       </div>
     </div>
