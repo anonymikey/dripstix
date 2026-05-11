@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, Pencil, Trash2, X, Upload, Image, Tag, PackageX } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Upload, Image, Tag, PackageX, Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
+import { supabase as sb } from "@/integrations/supabase/client";
 
 type Product = {
   id: string; name: string; description: string; base_price: number;
@@ -26,6 +27,7 @@ const AdminProducts = () => {
   const [creating, setCreating] = useState(false);
   const [form, setForm] = useState(emptyProduct);
   const [uploading, setUploading] = useState(false);
+  const [aiGenerating, setAiGenerating] = useState(false);
   const [filterType, setFilterType] = useState<"phone" | "laptop">("phone");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -112,6 +114,24 @@ const AdminProducts = () => {
     saveMutation.mutate(editing ? { ...payload, id: editing.id } : payload);
   };
 
+  const generateDescription = async () => {
+    if (!form.name) { toast.error("Add a product name first"); return; }
+    setAiGenerating(true);
+    try {
+      const cat = categories.find((c) => c.id === form.category_id)?.name;
+      const { data, error } = await sb.functions.invoke("ai-generate-description", {
+        body: { name: form.name, category: cat, productType: form.product_type },
+      });
+      if (error) throw error;
+      if (data?.description) {
+        setForm({ ...form, description: data.description });
+        toast.success("Description generated!");
+      }
+    } catch (e: any) {
+      toast.error(e.message || "Failed to generate");
+    } finally { setAiGenerating(false); }
+  };
+
   const showForm = creating || editing;
 
   return (
@@ -189,7 +209,14 @@ const AdminProducts = () => {
               </select>
             </div>
             <div className="sm:col-span-2">
-              <label className="text-sm text-muted-foreground">Description</label>
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-muted-foreground">Description</label>
+                <button type="button" onClick={generateDescription} disabled={aiGenerating}
+                  className="flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary hover:bg-primary/20 disabled:opacity-50">
+                  {aiGenerating ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
+                  AI Generate
+                </button>
+              </div>
               <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-foreground focus:border-primary focus:outline-none" />
             </div>
           </div>
