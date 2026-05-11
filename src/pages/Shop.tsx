@@ -4,9 +4,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import PageBackground from "@/components/PageBackground";
+import AISearchBar from "@/components/AISearchBar";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { useState } from "react";
 
 const REFERRAL_STORAGE_KEY = "dripstix_referral_code";
 
@@ -24,6 +26,7 @@ const Shop = () => {
 
   const { data: products = [], isLoading } = useProducts(activeType, activeCategory);
   const { data: categories = [] } = useCategories(activeType);
+  const [aiIds, setAiIds] = useState<string[] | null>(null);
 
   const setFilter = (cat: string, type?: "phone" | "laptop") => {
     const t = type || activeType;
@@ -42,6 +45,8 @@ const Shop = () => {
           <h1 className="font-display text-4xl font-black tracking-tight sm:text-5xl text-foreground">
             The <span className="text-gradient">Shop</span>
           </h1>
+
+          <AISearchBar onResults={(ids) => setAiIds(ids)} onClear={() => setAiIds(null)} />
 
           <div className="mt-6 flex gap-2">
             {(["phone", "laptop"] as const).map((t) => (
@@ -77,10 +82,13 @@ const Shop = () => {
             <div className="mt-10"><LoadingSpinner text="Loading products..." /></div>
           ) : (
             <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {(aiIds
+                ? aiIds.map((id) => products.find((p) => p.id === id)).filter(Boolean) as typeof products
+                : products
+              ).map((product) => (
+                <ProductCard key={product!.id} product={product!} />
               ))}
-              {products.length === 0 && (
+              {(aiIds ? aiIds.length === 0 : products.length === 0) && (
                 <p className="col-span-full text-center text-muted-foreground">No products found in this category.</p>
               )}
             </div>
