@@ -106,6 +106,33 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_chat_logs: {
+        Row: {
+          created_at: string
+          id: string
+          intent: string | null
+          message: string
+          phone_number: string | null
+          session_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          intent?: string | null
+          message: string
+          phone_number?: string | null
+          session_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          intent?: string | null
+          message?: string
+          phone_number?: string | null
+          session_id?: string | null
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
