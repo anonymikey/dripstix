@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Plus, Pencil, Trash2, X, Upload, Image, Tag, PackageX, Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
-import { supabase as sb } from "@/integrations/supabase/client";
 
 type Product = {
   id: string; name: string; description: string; base_price: number;
@@ -119,7 +118,7 @@ const AdminProducts = () => {
     setAiGenerating(true);
     try {
       const cat = categories.find((c) => c.id === form.category_id)?.name;
-      const { data, error } = await sb.functions.invoke("ai-generate-description", {
+      const { data, error } = await supabase.functions.invoke("ai-generate-description", {
         body: { name: form.name, category: cat, productType: form.product_type },
       });
       if (error) throw error;
