@@ -1,0 +1,15 @@
+# DripStix
+
+> DripStix is a Kenyan online store selling premium phone and laptop stickers. Customers browse trendy designs, customize their picks, and pay securely with M-PESA via Payflow.
+
+## Pages
+
+- [Home](/): Brand overview, featured drops, and current offers.
+- [Shop](/shop): Browse all phone and laptop stickers by category.
+- [Affiliate Program](/affiliate): Earn 20% commission by sharing DripStix posters.
+- [Contact](/contact): Phone, WhatsApp, email, and location details.
+
+## Optional
+
+- [Cart](/cart): Items selected for checkout.
+- [Checkout](/checkout): M-PESA payment flow.
