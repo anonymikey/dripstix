@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Minus, Plus, ShoppingCart, Tag } from "lucide-react";
@@ -52,6 +53,30 @@ const ProductDetails = () => {
 
   return (
     <div className="min-h-screen page-bg">
+      <Helmet>
+        <title>{`${product.name} — DripStix`}</title>
+        <meta name="description" content={(product.description || `Buy ${product.name} at DripStix. Premium sticker, M-PESA checkout, fast delivery in Kenya.`).slice(0, 160)} />
+        <link rel="canonical" href={`https://dripstix.lovable.app/product/${product.id}`} />
+        <meta property="og:title" content={`${product.name} — DripStix`} />
+        <meta property="og:description" content={(product.description || `Buy ${product.name} at DripStix.`).slice(0, 160)} />
+        <meta property="og:url" content={`https://dripstix.lovable.app/product/${product.id}`} />
+        <meta property="og:type" content="product" />
+        {product.image && <meta property="og:image" content={product.image} />}
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: product.description || undefined,
+          image: product.image || undefined,
+          offers: {
+            "@type": "Offer",
+            price: displayPrice,
+            priceCurrency: "KES",
+            availability: isOutOfStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+            url: `https://dripstix.lovable.app/product/${product.id}`,
+          },
+        })}</script>
+      </Helmet>
       <PageBackground />
       <div className="relative z-10">
         <Navbar />

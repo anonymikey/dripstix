@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -38,6 +39,13 @@ const Shop = () => {
 
   return (
     <div className="min-h-screen page-bg">
+      <Helmet>
+        <title>{activeType === "laptop" ? "Laptop Skins & Stickers" : "Phone Stickers"} — Shop DripStix</title>
+        <meta name="description" content={`Browse ${activeType === "laptop" ? "laptop skins" : "phone stickers"} at DripStix. ${activeCategory !== "All" ? activeCategory + " designs. " : ""}Premium quality, M-PESA checkout, delivered across Kenya.`} />
+        <link rel="canonical" href={`https://dripstix.lovable.app/shop?type=${activeType}`} />
+        <meta property="og:title" content={`${activeType === "laptop" ? "Laptop Skins" : "Phone Stickers"} — Shop DripStix`} />
+        <meta property="og:url" content={`https://dripstix.lovable.app/shop?type=${activeType}`} />
+      </Helmet>
       <PageBackground />
       <div className="relative z-10">
         <Navbar />
