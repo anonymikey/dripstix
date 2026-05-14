@@ -48,6 +48,14 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Helmet>
+        <title>Contact DripStix — Phone, WhatsApp & Email Support</title>
+        <meta name="description" content="Reach DripStix in Voi, Mombasa Road. Call, WhatsApp, or email our team Mon–Sat 9AM–6PM for sticker orders and support." />
+        <link rel="canonical" href="https://dripstix.lovable.app/contact" />
+        <meta property="og:title" content="Contact DripStix" />
+        <meta property="og:description" content="Reach DripStix via phone, WhatsApp, or email — Mon–Sat 9AM–6PM." />
+        <meta property="og:url" content="https://dripstix.lovable.app/contact" />
+      </Helmet>
       <Navbar />
 
       {/* Hero */}

@@ -36,6 +36,14 @@ const Affiliate = () => {
 
   return (
     <div className="min-h-screen page-bg">
+      <Helmet>
+        <title>DripStix Affiliate Program — Share & Save 20%</title>
+        <meta name="description" content="Join the DripStix affiliate program. Share posters with friends and unlock 20% off your next sticker order, plus commissions on every referral." />
+        <link rel="canonical" href="https://dripstix.lovable.app/affiliate" />
+        <meta property="og:title" content="DripStix Affiliate — Share & Save 20%" />
+        <meta property="og:description" content="Share DripStix posters and earn 20% off plus commissions on every referral." />
+        <meta property="og:url" content="https://dripstix.lovable.app/affiliate" />
+      </Helmet>
       <PageBackground />
       <div className="relative z-10">
         <Navbar />
