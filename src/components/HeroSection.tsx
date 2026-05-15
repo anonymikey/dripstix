@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Star } from "lucide-react";
-import stickersHero from "@/assets/stickers-hero.png";
+import { lazy, Suspense } from "react";
 import { useSiteContent } from "@/hooks/useSiteContent";
+
+const StickerScene3D = lazy(() => import("@/components/StickerScene3D"));
 
 const HeroSection = () => {
   const { data: content } = useSiteContent();
@@ -80,23 +82,16 @@ const HeroSection = () => {
             </motion.div>
           </div>
 
-          {/* Right: Hero image with glow */}
+          {/* Right: 3D scroll-driven sticker scene */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
             className="relative flex justify-center"
           >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-[80%] w-[80%] rounded-full bg-primary/15 blur-[80px]" />
-            </div>
-            <motion.img
-              src={stickersHero}
-              alt="Premium phone stickers collection"
-              className="relative z-10 w-full max-w-lg drop-shadow-2xl"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            />
+            <Suspense fallback={<div className="h-[480px] w-full sm:h-[560px] lg:h-[600px]" />}>
+              <StickerScene3D />
+            </Suspense>
           </motion.div>
         </div>
       </div>
